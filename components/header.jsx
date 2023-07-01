@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link'
 import React, { useEffect } from 'react';
 import Image from "next/image"
 import Logo from "../public/images/logo.png"
@@ -34,9 +35,9 @@ export default function header() {
                         </svg>
                     </button>
                 </span>
-                <a href="#">
+                <Link href="/">
                     <Image src={Logo} width={50} height={40} />
-                </a>
+                </Link>
                 <div className="mx-4">
                     <form action="">
                         <div className="flex items-center relative  max-md:hidden">
@@ -73,8 +74,8 @@ export default function header() {
                                     <Image className="rounded-full" src={Avatar} width={32} height={32} />
                                 </button> :
                                 <div className="flex gap-5 items-center">
-                                    <a href="#" className="text-sm font-semibold hover:underline">Login</a>
-                                    <a href="#" className="mr-2 whitespace-nowrap text-purple px-4 py-2 rounded border border-purple hover:bg-purple hover:text-white hover:underline">Cadastrar</a>
+                                    <Link href="/login" className='text-sm font-semibold hover:underline'>Login</Link>
+                                    <Link href="/register" className='mr-2 whitespace-nowrap text-purple px-4 py-2 rounded border border-purple hover:bg-purple hover:text-white hover:underline'>Cadastrar</Link>
                                 </div>
                         }
 

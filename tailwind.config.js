@@ -17,8 +17,10 @@ module.exports = {
       indigo: colors.indigo,
       yellow: colors.yellow,
       zinc: colors.zinc,
+      blue: colors.blue,
       'purple': '#818CF8',
-      'gray-dark': '#161B22'
+      'gray-dark': '#161B22',
+      'bg-button-color': '#238636'
 
     },
     extend: {
@@ -27,6 +29,9 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      width: {
+        '128': '32rem',
+      }
     },
   },
   plugins: [],
