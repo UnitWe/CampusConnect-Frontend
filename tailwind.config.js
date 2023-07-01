@@ -18,7 +18,8 @@ module.exports = {
       yellow: colors.yellow,
       zinc: colors.zinc,
       'purple': '#818CF8',
-      'gray-dark': '#171717'
+      'gray-dark': '#161B22'
+
     },
     extend: {
       backgroundImage: {
