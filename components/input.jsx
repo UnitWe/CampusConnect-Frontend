@@ -1,14 +1,14 @@
-export default function Input({type, name, placeholder, label, inputClasses, onChange, value}){
+export default function Input({type, name, placeholder, label, inputStyles, onChange, value, ...props}){
     return(
         <>
             {
                 label ?
                 <>
                     <label htmlFor={name}>{label}</label> 
-                    <input type={type} name={name} placeholder={placeholder} className={inputClasses} onChange={onChange} value={value}/> 
+                    <input type={type} name={name} placeholder={placeholder} className={inputStyles} onChange={onChange} value={value}/> 
                 </>
                 :
-                <input className={inputClasses} type={type} name={name} placeholder={placeholder} onChange={onChange} value={value}/> 
+                <input className={inputStyles} type={type} name={name} placeholder={placeholder} onChange={onChange} value={value}/> 
             }
             
         </>

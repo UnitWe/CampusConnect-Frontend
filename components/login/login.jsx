@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import Input from '../input';
+import Button from '../button';
 export default function login() {
 
     const [password, setPassword] = useState('');
@@ -33,20 +34,20 @@ export default function login() {
         }
     };
 
-    const classesInput = "px-2 h-11 rounded bg-black border border-zinc-700 focus:outline-none focus:border-purple focus:border-2"
-
+    const inputStyles = "px-2 h-11 rounded bg-black border border-zinc-700 focus:outline-none focus:border-purple focus:border-2"
+    const buttonStyles = "text-sm h-11 rounded bg-bg-button-color"
     return (
         <div className="flex items-center justify-center h-screen px-4">
             <div className=" max-w-xl mt-14">
                 <form action="" onSubmit={registerUser} className="flex flex-col gap-4 w-full">
                     <h1 className="font-semibold text-3xl">Login</h1>
                     <div className="flex flex-col gap-1">
-                        <Input type="text" name="email" label="Email" inputClasses={classesInput} onChange={(e) => setEmail(e.target.value)} value={email}/>
+                        <Input type="text" name="email" label="Email" inputStyles={inputStyles} onChange={(e) => setEmail(e.target.value)} value={email}/>
                     </div>
                     <div className="flex flex-col gap-1">
-                        <Input type="text" name="password" label="Password" inputClasses={classesInput} onChange={(e) => setPassword(e.target.value)} value={password}/>
+                        <Input type="text" name="password" label="Password" inputStyles={inputStyles} onChange={(e) => setPassword(e.target.value)} value={password}/>
                     </div>
-                    <button className="text-sm h-11 rounded bg-bg-button-color">Login</button>
+                    <Button buttonStyles={buttonStyles}>Login</Button>
                 </form>
                 <div className="mt-10">
                     <div className="flex items-center justify-center text-sm gap-1">
