@@ -1,14 +1,17 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+
 
 export default function Register() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
 
+   
     const registerUser = async (e) => {
         e.preventDefault(); // Prevent form submission
-
+        
+        
         try {
             const response = await fetch('http://localhost:8000/register/', {
                 method: 'POST',
@@ -20,8 +23,8 @@ export default function Register() {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data.message);
-                
+                localStorage.setItem('token', data.message);
+                window.location.href = '/';
             } else {
                 const errorData = await response.json();
                 console.error('Registration failed:', errorData.message);
@@ -32,14 +35,13 @@ export default function Register() {
             
         }
     };
-
     
 
     return (
         <div className="flex items-center justify-center h-screen px-4">
             <div className="max-w-xl mt-14">
                 <form onSubmit={registerUser} className="flex flex-col gap-4 w-full">
-                    <h1 className="font-semibold text-3xl">Login</h1>
+                    <h1 className="font-semibold text-3xl">Register</h1>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="username">Username</label>
                         <input
