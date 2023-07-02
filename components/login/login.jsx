@@ -1,17 +1,51 @@
-export default function login(){
+'use client'
+import React, { useState, useEffect } from 'react';
+import Input from '../input';
+export default function login() {
+
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+
+    const registerUser = async (e) => {
+        e.preventDefault(); // Prevent form submission
+
+        try {
+            const response = await fetch('http://localhost:8000/login/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }), 
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data.message);
+
+            } else {
+                const errorData = await response.json();
+                console.error('Login failed:', errorData.message);
+
+            }
+        } catch (error) {
+            console.error('An error occurred during login:', error);
+            
+        }
+    };
+
+    const classesInput = "px-2 h-11 rounded bg-black border border-zinc-700 focus:outline-none focus:border-purple focus:border-2"
+
     return (
         <div className="flex items-center justify-center h-screen px-4">
-            <div className=" max-w-xl mt-14"> 
-                <form action="" className="flex flex-col gap-4 w-full">
+            <div className=" max-w-xl mt-14">
+                <form action="" onSubmit={registerUser} className="flex flex-col gap-4 w-full">
                     <h1 className="font-semibold text-3xl">Login</h1>
                     <div className="flex flex-col gap-1">
-                        <label htmlFor="email">Email</label>
-                        <input type="text" name="email" id="" className="px-2 h-11 rounded bg-black border border-zinc-700 focus:outline-none focus:border-purple focus:border-2"/>
+                        <Input type="text" name="email" label="Email" inputClasses={classesInput} onChange={(e) => setEmail(e.target.value)} value={email}/>
                     </div>
                     <div className="flex flex-col gap-1">
-                        <label htmlFor="password">Password</label>
-                        <input type="password" name="password" id="" className="px-2 h-11 rounded bg-black border border-zinc-700 focus:outline-none focus:border-purple focus:border-2"/>
-                    </div>             
+                        <Input type="text" name="password" label="Password" inputClasses={classesInput} onChange={(e) => setPassword(e.target.value)} value={password}/>
+                    </div>
                     <button className="text-sm h-11 rounded bg-bg-button-color">Login</button>
                 </form>
                 <div className="mt-10">
