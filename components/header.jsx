@@ -1,29 +1,39 @@
 'use client'
 import Link from 'next/link'
+import * as jose from 'jose'
 import React, { useEffect } from 'react';
 import Image from "next/image"
 import Logo from "../public/images/logo.png"
 import Avatar from "../public/images/avatar.webp"
 
+
 export default function header() {
 
-    const [login, setLogin] = React.useState(false)
-
-    /*
+    const [logged, setLogged] = React.useState(false)
+    const secretKey = process.env.SECRET_KEY
     useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await fetch('http://127.0.0.1:8000/');
-            const data = await response.json();
-            console.log(data); 
-          } catch (error) {
-            console.error(error);
-          }
+        
+        const verifyToken = async (token) => {
+            
+            try {   
+                
+                const EncodedSecretKey = new TextEncoder().encode(secretKey);
+                const decoded = await jose.jwtVerify(token, EncodedSecretKey, { algorithms: ['HS256'] });
+                setLogged(true);
+            } catch (e) {
+                setLogged(false)
+        
+            }
+            
         };
-    
-        fetchData();
+        const token = localStorage.getItem('token');
+        if (token) {
+            verifyToken(token)
+        } 
+        
       }, []);
-    */
+      
+    
 
     return (
         <header className=" bg-gray-dark fixed right-0 top-0 left-0 w-full px-2 max-md:px-0">
@@ -50,7 +60,7 @@ export default function header() {
                 </div>
                 <div className="flex items-center ml-auto">
                     {
-                        login ?
+                        logged ?
                             <div className="flex items-center h-100 ml-auto">
                                 <a href="#" className="hidden max-md:block p-2">
                                     <svg className="fill-zinc-300" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m18.031 16.617 4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z"></path></svg>
@@ -69,7 +79,7 @@ export default function header() {
 
                     <div>
                         {
-                            login ?
+                            logged ?
                                 <button className="p-1">
                                     <Image className="rounded-full" src={Avatar} width={32} height={32} />
                                 </button> :
