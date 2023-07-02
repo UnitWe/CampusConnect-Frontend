@@ -8,7 +8,7 @@ export default function login() {
     const [email, setEmail] = useState('');
 
     const registerUser = async (e) => {
-        e.preventDefault(); // Prevent form submission
+        e.preventDefault(); 
 
         try {
             const response = await fetch('http://localhost:8000/login/', {
@@ -21,7 +21,8 @@ export default function login() {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data.message);
+                localStorage.setItem('token', data.message);
+                window.location.href = '/';
 
             } else {
                 const errorData = await response.json();
