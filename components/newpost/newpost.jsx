@@ -2,12 +2,12 @@
 import React from "react"
 import Input from "../input"
 import * as jose from 'jose'
-
+import { useRouter } from "next/navigation"
 
 export default function newpost() {
     const [title, setTitle] = React.useState('')
     const [content, setContent] = React.useState('')
-
+    const router = useRouter()
 
     React.useEffect(() => {
         const verifyToken = async (token) => {
@@ -45,7 +45,7 @@ export default function newpost() {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data.message)
+                router.push('/')
 
             } else {
                 const errorData = await response.json();
