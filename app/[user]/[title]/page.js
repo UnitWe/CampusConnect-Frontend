@@ -1,55 +1,55 @@
 'use client'
 import React from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import useFetch from '../../../components/hooks/useFetch'
 
 
 export default function Page({ params }) {
-
-    const pathname = usePathname()
-    const encodedPath = pathname.replace('%20', ' ');
-    const parts = encodedPath.substring(1).split('/');
-    const user = parts[0];
-    const encodedTitle = parts[1];
-    const title = decodeURIComponent(encodedTitle);
-    
-
     const [post, setPost] = React.useState(null);
+    const { error, loading, request } = useFetch();
+    const url = "http://localhost:8000/post_detail/"
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const post_id = urlParams.get('post_id');
 
+
     React.useEffect(() => {
-        fetchPost();
-    }, [post_id]);
-
-
-
-    const fetchPost = async () => {
-        try {
-            const response = await fetch('http://localhost:8000/post_detail', {
+        const fetchData = async () => {
+            const options = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ post_id }),
-            });
-            const responseData = await response.json();
-            const data = responseData.data; 
-            setPost(data)
-        } catch (error) {
-            console.error('Erro ao buscar os posts:', error);
-        }
-    };
-    
+            };
+
+            const { response, json } = await request(url, options);
+
+            if (response.ok) {
+                setPost(json.data)
+            }
+        };
+
+        fetchData()
+
+    }, [request, url]);
+
+
 
     return (
         <div>
-            <h1>User: {user}</h1>
-            <h2>Title: {title}</h2>
-            <h3>post_id: {post_id}</h3>
+
+            {loading && <p>Carregando...</p>}
             {
-                post ? <p>{post.content}</p> : ""
+                post ?
+                    <div>
+                        <h1>User: {post.user}</h1>
+                        <h2>Title: {post.title}</h2>
+                        <h3>post_id: {post_id}</h3>
+                        <p>{post.content}</p>
+                    </div>
+                    : ""
             }
         </div>
     )
