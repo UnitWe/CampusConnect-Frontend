@@ -2,13 +2,18 @@
 import React, { useState, useEffect } from 'react';
 import Input from '../input';
 import Button from '../button';
+
+
+
 export default function login() {
 
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
 
+
+
     const registerUser = async (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
 
         try {
             const response = await fetch('http://localhost:8000/login/', {
@@ -16,7 +21,7 @@ export default function login() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }), 
+                body: JSON.stringify({ email, password }),
             });
 
             if (response.ok) {
@@ -31,7 +36,7 @@ export default function login() {
             }
         } catch (error) {
             console.error('An error occurred during login:', error);
-            
+
         }
     };
 
@@ -43,10 +48,10 @@ export default function login() {
                 <form action="" onSubmit={registerUser} className="flex flex-col gap-4 w-full">
                     <h1 className="font-semibold text-3xl">Login</h1>
                     <div className="flex flex-col gap-1">
-                        <Input type="text" name="email" label="Email" inputStyles={inputStyles} onChange={(e) => setEmail(e.target.value)} value={email}/>
+                        <Input type="text" name="email" label="Email" inputStyles={inputStyles} onChange={(e) => setEmail(e.target.value)} value={email} />
                     </div>
                     <div className="flex flex-col gap-1">
-                        <Input type="text" name="password" label="Password" inputStyles={inputStyles} onChange={(e) => setPassword(e.target.value)} value={password}/>
+                        <Input type="text" name="password" label="Password" inputStyles={inputStyles} onChange={(e) => setPassword(e.target.value)} value={password} />
                     </div>
                     <Button buttonStyles={buttonStyles}>Login</Button>
                 </form>
@@ -71,6 +76,7 @@ export default function login() {
                     <a href="#" className="text-blue-500 hover:underline">Termos de uso</a>
                 </div>
             </div>
+            
         </div>
     )
 }
