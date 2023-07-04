@@ -2,6 +2,8 @@
 import React from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import useFetch from '../../../components/hooks/useFetch'
+import Post from '@/components/post/post';
+import Header from '@/components/header';
 
 
 export default function Page({ params }) {
@@ -38,19 +40,17 @@ export default function Page({ params }) {
 
 
     return (
-        <div>
-
+        <>
             {loading && <p>Carregando...</p>}
             {
                 post ?
-                    <div>
-                        <h1>User: {post.user}</h1>
-                        <h2>Title: {post.title}</h2>
-                        <h3>post_id: {post_id}</h3>
-                        <p>{post.content}</p>
-                    </div>
+                    <>
+                        <Header/>
+                        <Post title={post.title} content={post.content} user={post.user}/>
+                    </>
+                    
                     : ""
             }
-        </div>
+        </>
     )
 }
