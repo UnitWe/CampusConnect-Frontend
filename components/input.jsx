@@ -5,10 +5,10 @@ export default function Input({type, name, placeholder, label, inputStyles, onCh
                 label ?
                 <>
                     <label htmlFor={name}>{label}</label> 
-                    <input type={type} name={name} placeholder={placeholder} className={inputStyles} onChange={onChange} value={value}/> 
+                    <input type={type} name={name} placeholder={placeholder} className={inputStyles} onChange={onChange} value={value} {...props}/> 
                 </>
                 :
-                <input className={inputStyles} type={type} name={name} placeholder={placeholder} onChange={onChange} value={value}/> 
+                <input className={inputStyles} type={type} name={name} placeholder={placeholder} onChange={onChange} value={value} {...props}/> 
             }
             
         </>
