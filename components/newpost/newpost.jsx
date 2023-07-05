@@ -70,8 +70,8 @@ export default function newpost() {
                 <Input type="text" required placeholder="Título" name="title" inputStyles={inputStyles} onChange={(e) => setTitle(e.target.value)} value={title} />
                 <textarea rows="12" required cols="30" placeholder="Escreva seu post aqui" style={{resize: 'none'}} value={content} onChange={(e) => setContent(e.target.value)} className="p-4  rounded bg-black border border-zinc-700 focus:outline-none focus:border-purple focus:border-2"/>
                 <div className="flex gap-3 items-center justify-end">
-                    <a href="/" className="text-sm text-zinc-500/80 duration-100 px-3 py-1 rounded-md hover:bg-zinc-600/50">Cancelar</a>
-                    <button className=" bg-green-600 text-sm px-3 py-1 rounded-md">Publicar</button>
+                    <a href="/" className="text-sm text-zinc-500/80 duration-100 px-3 py-1.5 rounded-md hover:bg-zinc-600/50">Cancelar</a>
+                    <button className=" bg-green-600 text-sm px-3 py-1.5 rounded-md">Publicar</button>
                 </div>
             </form>
         </div>
