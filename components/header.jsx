@@ -11,6 +11,7 @@ export default function header() {
 
     const [logged, setLogged] = React.useState(false)
     const [menu, setMenu] = React.useState(false)
+    const [user, setUser] = React.useState('')
 
 
     useEffect(() => {
@@ -18,6 +19,8 @@ export default function header() {
             try {
                 const EncodedSecretKey = new TextEncoder().encode('teste');
                 const decoded = await jose.jwtVerify(token, EncodedSecretKey, { algorithms: ['HS256'] });
+                const { payload } = decoded
+                setUser(payload.payload.username)
                 setLogged(true);
             } catch (e) {
                 setLogged(false)
@@ -37,13 +40,6 @@ export default function header() {
     return (
         <header className=" bg-gray-dark fixed right-0 top-0 left-0 w-full px-2 max-md:px-0">
             <div className="flex items-center px-2 max-w-7xl mx-auto h-14">
-                <span className="hidden max-md:flex items-center">
-                    <button className="mx-2 p-2">
-                        <svg className="fill-zinc-300" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="atno4p6s0vyo8u1vyz9t1ta9pft0yuex"><title id="atno4p6s0vyo8u1vyz9t1ta9pft0yuex">Navigation menu</title>
-                            <path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"></path>
-                        </svg>
-                    </button>
-                </span>
                 <Link href="/">
                     <Image src={Logo} width={50} height={40} />
                 </Link>
@@ -88,20 +84,20 @@ export default function header() {
                                             <div className='absolute right-4 top-12 bg-gray-dark border border-zinc-700 rounded-lg py-2 px-2 w-max'>
                                                 <ul>
                                                     <li className='px-2 text-sm rounded-lg duration-100 hover:bg-zinc-600/50'>
-                                                        <Link href="#" className='flex items-center gap-2 text-zinc-200 w-full py-2 '>
+                                                        <a href="/" className='flex items-center gap-2 text-zinc-200 w-full py-2 '>
                                                             <svg aria-hidden="true" focusable="false" role="img" viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z"></path></svg>
-                                                            MarceloCoelho1
-                                                        </Link>
+                                                            {user ? user : ""}
+                                                        </a>
                                                     </li>
                                                     <li className='px-2 text-sm rounded-lg duration-100 hover:bg-zinc-600/50'>
-                                                        <Link href="#" className='flex items-center gap-2 text-zinc-200 w-full py-2 '>
+                                                        <Link href="/create_post" className='flex items-center gap-2 text-zinc-200 w-full py-2 '>
                                                             Publicar novo conteúdo
                                                         </Link>
                                                     </li>
                                                     <li className='px-2 text-sm rounded-lg duration-100 hover:bg-zinc-600/50'>
-                                                        <Link href="#" className='flex items-center gap-2 text-zinc-200 w-full py-2 '>
+                                                        <a href={`/${user}`} className='flex items-center gap-2 text-zinc-200 w-full py-2 '>
                                                             Meus conteúdos
-                                                        </Link>
+                                                        </a>
                                                     </li>
                                                     <li className='px-2 text-sm rounded-lg duration-100 hover:bg-zinc-600/50'>
                                                         <Link href="#" className='flex items-center gap-2 text-zinc-200 w-full py-2 '>
