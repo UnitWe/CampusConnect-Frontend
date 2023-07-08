@@ -14,8 +14,7 @@ export default function post({ title, content, user, comments=[] }) {
     const urlParams = new URLSearchParams(queryString);
     const postId = urlParams.get('post_id');
 
-    const { error, loading, request } = useFetch()
-    
+    const { error, loading, request } = useFetch()  
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -37,18 +36,6 @@ export default function post({ title, content, user, comments=[] }) {
 
     }
 
-    const verifyToken = async (token) => {
-        try {
-            const EncodedSecretKey = new TextEncoder().encode('teste');
-            const decoded = await jose.jwtVerify(token, EncodedSecretKey, { algorithms: ['HS256'] });
-            const { payload } = decoded
-            setUserId(payload.payload.user_id)
-        } catch (e) {
-            console.log(e)
-        }
-
-    };
-
 
     const estimateReadingTime = (text) => {
         const averageWordsPerMinute = 200;
@@ -60,10 +47,6 @@ export default function post({ title, content, user, comments=[] }) {
     React.useEffect(() => {
         if (content) {
             estimateReadingTime(content)
-        }
-        const token = localStorage.getItem('token');
-        if (token) {
-            verifyToken(token)
         }
 
     }, [])
