@@ -1,29 +1,38 @@
 'use client'
-import React from "react"
+import React, { useState } from "react"
 import useFetch from "../hooks/useFetch"
 export default function main() {
 
     const [posts, setPosts] = React.useState([]);
     const { error, loading, request } = useFetch();
-    const url = "http://localhost:8000/"
+    const url = "http://localhost:3001/blog"
+    const [currentPage, setCurrentpage] = useState(1)
+    const [perPage, setPerPage] = useState(1)
+
 
 
 
     React.useEffect(() => {
         const fetchData = async () => {
             const options = {
-                method: 'GET'
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ currentPage, perPage }),
             };
 
             const { response, json } = await request(url, options);
 
             if (response.ok) {
                 setPosts(json.data)
-            }
+
+                console.log(json)
+            } 
         };
 
         fetchData();
-    }, [request, url]);
+    }, [request, currentPage]);
 
     const createSlug =(text) => {
         const slug = text
@@ -46,11 +55,11 @@ export default function main() {
 
                 {Array.isArray(posts) ? (
                     posts.map((post, index) => {
-                        const slug = createSlug(post.title);
-                        const postUrl = `/${post.user}/${slug}?post_id=${post.id}`;
+                        //const slug = createSlug(post.title);
+                        const postUrl = `${post.authorId.name}/${post._id}`;
 
                         return (
-                            <div key={post.id} className="mb-3">
+                            <div key={post._id} className="mb-3">
                                 <a href={postUrl} className="hover:underline">
                                     {index + 1}. {post.title}
                                 </a>
@@ -65,10 +74,17 @@ export default function main() {
                             </div>
                         );
                     })
+
+                    
                 ) : (
                     <p>Nenhum post encontrado.</p>
                 )}
-
+                    <div className="flex gap-4">
+                        <button onClick={()=> setCurrentpage(currentPage - 1)}>prev</button>
+                        <button onClick={()=> setCurrentpage(currentPage + 1)}>next</button> 
+                    </div>
+                    
+                    
             </div>
         </main>
     )
