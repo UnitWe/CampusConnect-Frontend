@@ -17,10 +17,9 @@ export default function header() {
     useEffect(() => {
         const verifyToken = async (token) => {
             try {
-                const EncodedSecretKey = new TextEncoder().encode('teste');
+                const EncodedSecretKey = new TextEncoder().encode('asdsddasybudsa');
                 const decoded = await jose.jwtVerify(token, EncodedSecretKey, { algorithms: ['HS256'] });
-                const { payload } = decoded
-                setUser(payload.payload.username)
+                setUser(decoded.payload.username)
                 setLogged(true);
             } catch (e) {
                 setLogged(false)
