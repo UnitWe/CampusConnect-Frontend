@@ -5,11 +5,9 @@ export default function main() {
 
     const [posts, setPosts] = React.useState([]);
     const { error, loading, request } = useFetch();
-    const url = "http://localhost:3001/blog"
+    const url = "http://localhost:5001/api/v1/post"
     const [currentPage, setCurrentpage] = useState(1)
-    const [perPage, setPerPage] = useState(1)
-
-
+    const [perPage, setPerPage] = useState(3)
 
 
     React.useEffect(() => {
@@ -27,12 +25,13 @@ export default function main() {
             if (response.ok) {
                 setPosts(json.data)
 
-                console.log(json)
             } 
         };
 
         fetchData();
     }, [request, currentPage]);
+
+    
 
     const createSlug =(text) => {
         const slug = text
@@ -56,7 +55,7 @@ export default function main() {
                 {Array.isArray(posts) ? (
                     posts.map((post, index) => {
                         //const slug = createSlug(post.title);
-                        const postUrl = `${post.authorId.name}/${post._id}`;
+                        const postUrl = `${post.author}/${post._id}`;
 
                         return (
                             <div key={post._id} className="mb-3">
@@ -66,8 +65,8 @@ export default function main() {
                                 <div className="flex items-center gap-2 ml-4 mt-0.5">
                                     <span className="text-xs text-zinc-400">4 tabcoins</span>
                                     <span className="text-xs text-zinc-400">12 comentários</span>
-                                    <a href={`/${post.user}`} className="text-xs text-zinc-400 hover:underline">
-                                        {post.user}
+                                    <a href={`/${post.author}`} className="text-xs text-zinc-400 hover:underline">
+                                        {post.author}
                                     </a>
                                     <span className="text-xs text-zinc-400">19 horas</span>
                                 </div>
