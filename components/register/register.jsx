@@ -13,7 +13,7 @@ export default function Register() {
         
         
         try {
-            const response = await fetch('http://localhost:8000/register/', {
+            const response = await fetch('http://localhost:5000/api/v1/user', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ export default function Register() {
 
             if (response.ok) {
                 const data = await response.json();
-                localStorage.setItem('token', data.message);
+                localStorage.setItem('token', data.access_token);
                 window.location.href = '/';
             } else {
                 const errorData = await response.json();
