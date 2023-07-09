@@ -12,7 +12,7 @@ export default function newpost() {
     React.useEffect(() => {
         const verifyToken = async (token) => {
             try {
-                const EncodedSecretKey = new TextEncoder().encode('teste');
+                const EncodedSecretKey = new TextEncoder().encode('asdsddasybudsa');
                 const decoded = await jose.jwtVerify(token, EncodedSecretKey, { algorithms: ['HS256'] });
             } catch (e) {
                 window.location.href = '/login';
@@ -31,16 +31,16 @@ export default function newpost() {
         e.preventDefault()
         const token = localStorage.getItem('token')
         const decoded = jose.decodeJwt(token)
-        const user_id = decoded.user_id
-        console.log(user_id)
+        const author = decoded.username
+
 
         try {
-            const response = await fetch('http://localhost:8000/create_post/', {
+            const response = await fetch('http://localhost:5001/api/v1/post/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ title, content, user_id }),
+                body: JSON.stringify({ title, content, author }),
             });
 
             if (response.ok) {
