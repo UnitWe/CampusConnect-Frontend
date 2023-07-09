@@ -9,7 +9,7 @@ export default function Page({ params }) {
     const encodedPath = pathname.replace('%20', ' ');
     const parts = encodedPath.substring(1).split('/');
     const user = parts[0];
-    const url = 'http://localhost:8000/user_detail/'
+    const url = `http://localhost:5001/api/v1/post/${user}`
 
     const { loading, error, request } = useFetch()
     const [posts, setPosts] = React.useState(null)
@@ -18,11 +18,8 @@ export default function Page({ params }) {
     React.useEffect(() => {
         const fetchData = async () => {
             const options = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ user }),
+                method: 'GET',
+       
             };
 
             const { response, json } = await request(url, options);
@@ -36,17 +33,19 @@ export default function Page({ params }) {
 
     }, [request]);
 
-
-    const createSlug =(text) => {
-        const slug = text
-          .toLowerCase()
-          .replace(/[^\w\s-]/g, '') // Remove caracteres especiais
-          .replace(/\s+/g, '-') // Substitui espaços por hífens
-          .replace(/--+/g, '-') // Remove hífens duplicados
-          .trim(); // Remove espaços em branco no início e no fim
+    
+    // const createSlug =(text) => {
+    //     const slug = text
+    //       .toLowerCase()
+    //       .replace(/[^\w\s-]/g, '') // Remove caracteres especiais
+    //       .replace(/\s+/g, '-') // Substitui espaços por hífens
+    //       .replace(/--+/g, '-') // Remove hífens duplicados
+    //       .trim(); // Remove espaços em branco no início e no fim
       
-        return slug;
-    }
+    //     return slug;
+    // }
+
+    
 
     return (
         <div>
@@ -54,8 +53,8 @@ export default function Page({ params }) {
             {loading && <p>Carregando...</p>}
             {posts ?
                 posts.map((post, index) => {
-                    const slug = createSlug(post.title);
-                    const postUrl = `/${post.user}/${slug}?post_id=${post.id}`;
+                    //const slug = createSlug(post.title);
+                    const postUrl = `/${post.author}/${post._id}`;
                     return (
                         <div className='flex items-center gap-2' key={index}>
                             <span>{index + 1}.</span>

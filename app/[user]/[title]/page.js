@@ -1,6 +1,6 @@
 'use client'
 import React from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation'
 import useFetch from '../../../components/hooks/useFetch'
 import Post from '@/components/post/post';
 import Header from '@/components/header';
@@ -9,21 +9,22 @@ import Header from '@/components/header';
 export default function Page({ params }) {
     const [post, setPost] = React.useState(null);
     const { error, loading, request } = useFetch();
-    const url = "http://localhost:8000/post_detail/"
 
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const post_id = urlParams.get('post_id');
+    const pathname = usePathname()
+    const parts = pathname.split('/');
+    const username = parts[parts.length - 2]
+    const id = parts[parts.length - 1];
 
 
     React.useEffect(() => {
         const fetchData = async () => {
+            const url = `http://localhost:5001/api/v1/post/${username}/${id}`
             const options = {
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ post_id }),
+                
             };
 
             const { response, json } = await request(url, options);
@@ -32,10 +33,9 @@ export default function Page({ params }) {
                 setPost(json.data)
             }
         };
-
+        
         fetchData()
-
-    }, [request, url]);
+    }, [request]);
 
 
 
@@ -46,7 +46,7 @@ export default function Page({ params }) {
                 post ?
                     <>
                         <Header/>
-                        <Post title={post.title} content={post.content} user={post.user}/>
+                        <Post title={post.title} content={post.content} author={post.author} post_id={post._id} comments={post.comments ? post.comments : []}/>
                     </>
                     
                     : ""
