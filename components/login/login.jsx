@@ -16,7 +16,7 @@ export default function login() {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:8000/login/', {
+            const response = await fetch('http://localhost:5000/api/v1/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -26,7 +26,8 @@ export default function login() {
 
             if (response.ok) {
                 const data = await response.json();
-                localStorage.setItem('token', data.message);
+
+                localStorage.setItem('token', data.access_token);
                 window.location.href = '/';
 
             } else {
@@ -51,7 +52,7 @@ export default function login() {
                         <Input type="text" name="email" label="Email" inputStyles={inputStyles} onChange={(e) => setEmail(e.target.value)} value={email} />
                     </div>
                     <div className="flex flex-col gap-1">
-                        <Input type="text" name="password" label="Password" inputStyles={inputStyles} onChange={(e) => setPassword(e.target.value)} value={password} />
+                        <Input type="password" name="password" label="Password" inputStyles={inputStyles} onChange={(e) => setPassword(e.target.value)} value={password} />
                     </div>
                     <Button buttonStyles={buttonStyles}>Login</Button>
                 </form>
