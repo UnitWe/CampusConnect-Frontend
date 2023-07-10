@@ -5,43 +5,27 @@ import * as jose from 'jose'
 import Image from "next/image";
 import Avatar from "../../public/images/avatar.webp"
 import { Bookmark, Heart, MessagesSquare, Share } from "lucide-react";
+import verifyJwtToken from "../hooks/verifyJwtToken";
+import estimateReadingTime from "../../functions/estimateReadingTime";
+import renderCommentContent from "../../functions/renderCommentContent";
 
-export default function post({ title, content, author, post_id, comments = [] }) {
 
-    const [readingTimeMinutes, setReadingTimeMinutes] = React.useState(0)
+export default function post({ title, content, author, post_id, likes, comments = [], reading_time }) {
+    const {verify} = verifyJwtToken()
     const [response, setResponse] = React.useState(false)
     const [comment, setComment] = React.useState('')
     const [username, setUsername] = React.useState('')
     const [isLogged, setIsLogged] = React.useState(false)
+    const [countLikes, setCountLikes] = React.useState(likes || 0)
+    const [disabled, setDisabled] = React.useState(false)
 
 
     const { error, loading, request } = useFetch()
 
-    const renderCommentContent = (content) => {
-        // Expressão regular para encontrar URLs
-        const urlRegex = /(https?:\/\/[^\s]+)/g;
-        const parts = content.split(urlRegex); // Divide o conteúdo em partes com base nas URLs
-        return parts.map((part, index) => {
-          if (part.match(urlRegex)) {
-            // Se a parte corresponder à URL, renderiza como um link
-            return (
-              <a className=" text-blue-500 hover:underline" href={part} target="_blank" rel="noopener noreferrer" key={index}>
-                {part}
-              </a>
-            );
-          } else {
-            // Caso contrário, renderiza o texto normalmente
-            return <React.Fragment key={index}>{part}</React.Fragment>;
-          }
-        });
-      };
 
     const handleSubmit = async (e) => {
-
         const url = "http://localhost:5001/api/v1/post/comment"
-
         if (isLogged) {
-
             const options = {
                 method: 'POST',
                 headers: {
@@ -49,9 +33,7 @@ export default function post({ title, content, author, post_id, comments = [] })
                 },
                 body: JSON.stringify({ username, post_id, content: comment }),
             };
-
             const { response, json } = await request(url, options);
-
             if (response.ok) {
                 console.log("commented")
             }
@@ -62,29 +44,20 @@ export default function post({ title, content, author, post_id, comments = [] })
     }
 
 
-    const estimateReadingTime = (text) => {
-        const averageWordsPerMinute = 200;
-        const wordCount = text.trim().split(/\s+/).length;
-        const readingTimeMinutes = Math.ceil(wordCount / averageWordsPerMinute);
-        setReadingTimeMinutes(readingTimeMinutes)
-    }
-
     const verifyToken = async (token) => {
-        try {
-            const EncodedSecretKey = new TextEncoder().encode('asdsddasybudsa');
-            const decoded = await jose.jwtVerify(token, EncodedSecretKey, { algorithms: ['HS256'] });
+        const {decoded} = await verify(token)
+        if (decoded) {
             setUsername(decoded.payload.username)
             setIsLogged(true)
-        } catch (e) {
+            console.log('logado')
+        } else {
             setIsLogged(false)
+            console.log('token invalido')
         }
 
     }
 
     React.useEffect(() => {
-        if (content) {
-            estimateReadingTime(content)
-        }
         const token = localStorage.getItem('token')
 
         if (token) {
@@ -94,17 +67,26 @@ export default function post({ title, content, author, post_id, comments = [] })
 
     }, [])
 
+    const handleLikeFetch = async () => {
+        if (isLogged) {
+            setCountLikes(likes + 1)
+            setDisabled(true)
+        } 
+        setDisabled(true)
+        
+    }
+
 
     return (
         <main className="mt-20 px-4">
             <div className="max-w-3xl m-auto mb-12">
-                <h1 className='text-4xl font-semibold break-words mb-6'>{title}</h1>
+                <h1 className='text-5xl font-semibold break-words mb-6'>{title}</h1>
                 <div className="flex items-start gap-2 mb-6">
                     <Image className="rounded-full" width={44} height={44} src={Avatar}/>
                     <div>
                         <a href={`/${author}`} className="block w-max mb-1 text-blue-500 text-xs bg-blue-950 rounded-md py-0.5 px-1.5">{author}</a>
                         <div className="flex items-center gap-2">
-                            <span className="text-xs text-zinc-500/80">{readingTimeMinutes} min de leitura</span>
+                            <span className="text-xs text-zinc-500/80">{reading_time} min de leitura</span>
                             <span className="text-xs text-zinc-500/80">1 day ago</span>
                         </div>
                         
@@ -113,8 +95,10 @@ export default function post({ title, content, author, post_id, comments = [] })
                 <div className="flex items-center justify-between px-2 border-t border-b py-2 border-zinc-900 mb-4">
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-1">
-                            <Heart width={20}  strokeWidth={1}/>
-                            <span className="text-xs text-zinc-500/80">500</span>
+                            <button disabled={disabled ? true : false} onClick={handleLikeFetch}>
+                                <Heart width={20}  strokeWidth={1}/>
+                            </button>
+                            <span className="text-xs text-zinc-500/80">{countLikes || 0}</span>
                         </div>
                         <div className="flex items-center gap-1">
                             <MessagesSquare width={20} strokeWidth={1}/>
