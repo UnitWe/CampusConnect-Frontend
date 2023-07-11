@@ -2,7 +2,10 @@
 import React from "react"
 import Input from "../input"
 import * as jose from 'jose'
+import * as dotenv from 'dotenv'
 import { useRouter } from "next/navigation"
+
+dotenv.config()
 
 export default function newpost() {
     const [title, setTitle] = React.useState('')
@@ -35,7 +38,7 @@ export default function newpost() {
 
 
         try {
-            const response = await fetch('http://localhost:5001/api/v1/post/create', {
+            const response = await fetch(`${process.env.BLOG_SERVICE}/post/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -2,6 +2,7 @@
 import React from "react";
 import useFetch from "../hooks/useFetch"
 import * as jose from 'jose'
+import * as dotenv from 'dotenv'
 import Image from "next/image";
 import Avatar from "../../public/images/avatar.webp"
 import { Bookmark, Heart, MessagesSquare, Share } from "lucide-react";
@@ -24,7 +25,7 @@ export default function post({ title, content, author, post_id, likes, comments 
 
 
     const handleSubmit = async (e) => {
-        const url = "http://localhost:5001/api/v1/post/comment"
+        const url = `${process.env.BLOG_SERVICE}/post/comment`
         if (isLogged) {
             const options = {
                 method: 'POST',

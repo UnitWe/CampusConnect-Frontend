@@ -1,8 +1,10 @@
 'use client'
 import React, { useState, useEffect } from 'react';
+import * as dotenv from 'dotenv';
 import Input from '../input';
 import Button from '../button';
 
+dotenv.config()
 
 
 export default function login() {
@@ -16,7 +18,7 @@ export default function login() {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:5000/api/v1/auth/login', {
+            const response = await fetch(`${process.env.USER_SERVICE}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
