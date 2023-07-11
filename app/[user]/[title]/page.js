@@ -1,10 +1,12 @@
 'use client'
 import React from 'react';
+import * as dotenv from 'dotenv';
 import { usePathname } from 'next/navigation'
 import useFetch from '../../../components/hooks/useFetch'
 import Post from '@/components/post/post';
 import Header from '@/components/header';
 
+dotenv.config()
 
 export default function Page({ params }) {
     const [post, setPost] = React.useState(null);
@@ -18,7 +20,7 @@ export default function Page({ params }) {
 
     React.useEffect(() => {
         const fetchData = async () => {
-            const url = `http://localhost:5001/api/v1/post/${username}/${id}`
+            const url = `${process.env.BLOG_SERVICE}/post/${username}/${id}`
             const options = {
                 method: 'GET',
                 headers: {

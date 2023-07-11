@@ -1,15 +1,18 @@
 'use client'
 import React from 'react';
+import * as dotenv from 'dotenv';
 import { useRouter, usePathname } from 'next/navigation';
 import Perfil from '@/components/perfil/perfil';
 import useFetch from '../../components/hooks/useFetch'
+
+dotenv.config()
 
 export default function Page({ params }) {
     const pathname = usePathname()
     const encodedPath = pathname.replace('%20', ' ');
     const parts = encodedPath.substring(1).split('/');
     const user = parts[0];
-    const url = `http://localhost:5001/api/v1/post/${user}`
+    const url = `${process.env.BLOG_SERVICE}/post/${user}`
 
     const { loading, error, request } = useFetch()
     const [posts, setPosts] = React.useState(null)

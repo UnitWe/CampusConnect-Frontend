@@ -1,5 +1,8 @@
 'use client'
 import React, { useState } from 'react';
+import * as dotenv from 'dotenv'
+
+dotenv.config()
 
 
 export default function Register() {
@@ -13,7 +16,7 @@ export default function Register() {
         
         
         try {
-            const response = await fetch('http://localhost:5000/api/v1/user', {
+            const response = await fetch(`${process.env.USER_SERVICE}/user`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

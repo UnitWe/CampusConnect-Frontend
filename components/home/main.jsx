@@ -1,11 +1,15 @@
 'use client'
 import React, { useState } from "react"
+import * as dotenv from 'dotenv';
 import useFetch from "../hooks/useFetch"
+
+dotenv.config()
+
 export default function main() {
 
     const [posts, setPosts] = React.useState([]);
     const { error, loading, request } = useFetch();
-    const url = "http://localhost:5001/api/v1/post"
+    const url = `${process.env.BLOG_SERVICE}/post`
     const [currentPage, setCurrentpage] = useState(1)
     const [perPage, setPerPage] = useState(3)
 
