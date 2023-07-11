@@ -10,6 +10,8 @@ import verifyJwtToken from "../hooks/verifyJwtToken";
 import estimateReadingTime from "../../functions/estimateReadingTime";
 import renderCommentContent from "../../functions/renderCommentContent";
 
+dotenv.config()
+
 
 export default function post({ title, content, author, post_id, likes, comments = [], reading_time }) {
     const {verify} = verifyJwtToken()
