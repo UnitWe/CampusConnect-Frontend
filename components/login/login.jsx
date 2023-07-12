@@ -18,7 +18,7 @@ export default function login() {
         e.preventDefault();
 
         try {
-            const response = await fetch(`${process.env.USER_SERVICE}/auth/login`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_ENV_USER_SERVICE}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
