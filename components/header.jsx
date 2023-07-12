@@ -27,6 +27,7 @@ export default function header() {
             }
 
         };
+        
         const token = localStorage.getItem('token');
         if (token) {
             verifyToken(token)
@@ -37,10 +38,10 @@ export default function header() {
 
 
     return (
-        <header className=" bg-gray-dark fixed right-0 top-0 left-0 w-full px-2 max-md:px-0">
+        <header className=" bg-gray-dark fixed right-0 top-0 left-0 w-full  px-2 max-md:px-0">
             <div className="flex items-center px-2 max-w-7xl mx-auto h-14">
                 <Link href="/">
-                    <Image src={Logo} width={50} height={40} />
+                    <Image src={Logo} width={70} height={70} />
                 </Link>
                 <div className="mx-4">
                     <form action="">

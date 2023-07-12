@@ -43,7 +43,6 @@ export default function post({ title, content, author, post_id, likes, comments 
 
         }
 
-
     }
 
 
@@ -71,7 +70,15 @@ export default function post({ title, content, author, post_id, likes, comments 
     }, [])
 
     const handleLikeFetch = async () => {
+        const url = `http://localhost:5001/api/v1/post/${post_id}/like`
         if (isLogged) {
+            const options = {
+                method: 'PATCH',
+            };
+            const { response, json } = await request(url, options);
+            if (response.ok) {
+                console.log("liked")
+            }
             setCountLikes(likes + 1)
             setDisabled(true)
         } 

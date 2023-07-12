@@ -4,69 +4,82 @@ import * as dotenv from 'dotenv';
 import { useRouter, usePathname } from 'next/navigation';
 import Perfil from '@/components/perfil/perfil';
 import useFetch from '../../components/hooks/useFetch'
+import Header from '@/components/header';
+import verifyJwtToken from '@/components/hooks/verifyJwtToken';
+
 
 dotenv.config()
 
-export default function Page({ params }) {
+export default function Page() {
     const pathname = usePathname()
     const encodedPath = pathname.replace('%20', ' ');
     const parts = encodedPath.substring(1).split('/');
-    const user = parts[0];
+    const username = parts[0];
     const url = `${process.env.BLOG_SERVICE}/post/${user}`
+    const [user, setUser] = React.useState(null)
+    const [token, setToken] = React.useState(null)
 
-    const { loading, error, request } = useFetch()
-    const [posts, setPosts] = React.useState(null)
 
+    useEffect(() => {
+        const token_value = localStorage.getItem('token')
 
-    React.useEffect(() => {
-        const fetchData = async () => {
-            const options = {
-                method: 'GET',
-       
-            };
+        if (token_value) {
+            verifyToken(token_value)
+        }
+        fetchData()
+    }, [])
 
-            const { response, json } = await request(url, options);
-
-            if (response.ok) {
-                setPosts(json.data)
-            }
+    const fetchData = async () => {
+        const url = 'http://localhost:5002/api/v1/user/showOneUser'
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username }),
         };
 
-        fetchData()
+        const { response, json } = await request(url, options);
 
-    }, [request]);
+        if (response.ok && json !== null) {
+            setUser(json)
+        } else {
+            console.log('usuario não existe')
+        }
+    }
+
+    const verifyToken = async (token) => {
+        const { decoded } = await verify(token)
+        if (decoded) {
+            setToken(decoded.payload.id)
+        } else {
+            console.log('token invalido')
+        }
+
+
+    }
 
     
-    // const createSlug =(text) => {
-    //     const slug = text
-    //       .toLowerCase()
-    //       .replace(/[^\w\s-]/g, '') // Remove caracteres especiais
-    //       .replace(/\s+/g, '-') // Substitui espaços por hífens
-    //       .replace(/--+/g, '-') // Remove hífens duplicados
-    //       .trim(); // Remove espaços em branco no início e no fim
-      
-    //     return slug;
-    // }
 
-    
 
     return (
-        <div>
-            <h1>Usuário: {user}</h1>
-            {loading && <p>Carregando...</p>}
-            {posts ?
-                posts.map((post, index) => {
-                    //const slug = createSlug(post.title);
-                    const postUrl = `/${post.author}/${post._id}`;
-                    return (
-                        <div className='flex items-center gap-2' key={index}>
-                            <span>{index + 1}.</span>
-                            <a className='hover:underline' href={postUrl}>{post.title}</a>
-                        </div>
-                    )
-                })
-                : ""
-            }
-        </div>
+        <>
+            {loading ? (
+                <p>Carregando...</p>
+            ) : (
+                <>
+                    {user !== null ? (
+                        <>
+                            <Header />
+                            <Perfil user={user} token={token ? token : null} />
+                        </>
+                    ) : (
+                        <>
+                            
+                        </>
+                    )}
+                </>
+            )}
+        </>
     )
 }

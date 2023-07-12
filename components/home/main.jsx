@@ -2,16 +2,20 @@
 import React, { useState } from "react"
 import * as dotenv from 'dotenv';
 import useFetch from "../hooks/useFetch"
+<<<<<<< Updated upstream
 
 dotenv.config()
 
+=======
+import timeDifference from "@/functions/timeDifference";
+>>>>>>> Stashed changes
 export default function main() {
 
     const [posts, setPosts] = React.useState([]);
     const { error, loading, request } = useFetch();
     const url = `${process.env.BLOG_SERVICE}/post`
     const [currentPage, setCurrentpage] = useState(1)
-    const [perPage, setPerPage] = useState(3)
+    const [limit, setLimit] = useState(3)
 
 
     React.useEffect(() => {
@@ -21,14 +25,14 @@ export default function main() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ currentPage, perPage }),
+                body: JSON.stringify({ currentPage, limit }),
             };
 
             const { response, json } = await request(url, options);
 
             if (response.ok) {
                 setPosts(json.data)
-
+                console.log(json.data)
             } 
         };
 
@@ -48,7 +52,7 @@ export default function main() {
         return slug;
     }
 
-
+    
 
     return (
         <main className="mt-20 px-4">
@@ -67,12 +71,12 @@ export default function main() {
                                     {index + 1}. {post.title}
                                 </a>
                                 <div className="flex items-center gap-2 ml-4 mt-0.5">
-                                    <span className="text-xs text-zinc-400">4 tabcoins</span>
-                                    <span className="text-xs text-zinc-400">12 comentários</span>
+                                    <span className="text-xs text-zinc-400">{post.likes} likes</span>
+                                    <span className="text-xs text-zinc-400">{post.commentsCount} comentários</span>
                                     <a href={`/${post.author}`} className="text-xs text-zinc-400 hover:underline">
                                         {post.author}
                                     </a>
-                                    <span className="text-xs text-zinc-400">19 horas</span>
+                                    <span className="text-xs text-zinc-400">{timeDifference(post.createdAt)}</span>
                                 </div>
                             </div>
                         );

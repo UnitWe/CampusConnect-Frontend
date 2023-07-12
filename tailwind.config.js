@@ -18,6 +18,8 @@ module.exports = {
       yellow: colors.yellow,
       zinc: colors.zinc,
       blue: colors.blue,
+      red: colors.red,
+      green: colors.green,
       'purple': '#818CF8',
       'gray-dark': '#161B22',
       'bg-button-color': '#238636'

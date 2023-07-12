@@ -48,7 +48,7 @@ export default function Page({ params }) {
                 post ?
                     <>
                         <Header/>
-                        <Post title={post.title} content={post.content} author={post.author} post_id={post._id} comments={post.comments ? post.comments : []}/>
+                        <Post reading_time={post.reading_time} title={post.title} content={post.content} author={post.author} post_id={post._id} likes={post.likes} comments={post.comments ? post.comments : []}/>
                     </>
                     
                     : ""
