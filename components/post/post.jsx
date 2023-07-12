@@ -1,19 +1,16 @@
 'use client'
 import React from "react";
 import useFetch from "../hooks/useFetch"
-import * as jose from 'jose'
-import * as dotenv from 'dotenv'
 import Image from "next/image";
 import Avatar from "../../public/images/avatar.webp"
 import { Bookmark, Heart, MessagesSquare, Share } from "lucide-react";
 import verifyJwtToken from "../hooks/verifyJwtToken";
-import estimateReadingTime from "../../functions/estimateReadingTime";
 import renderCommentContent from "../../functions/renderCommentContent";
+import timeDifference from "@/functions/timeDifference";
 
-dotenv.config()
 
 
-export default function post({ title, content, author, post_id, likes, comments = [], reading_time }) {
+export default function post({ commentsCount, createdAt, title, content, author, post_id, likes, comments = [], reading_time }) {
     const {verify} = verifyJwtToken()
     const [response, setResponse] = React.useState(false)
     const [comment, setComment] = React.useState('')
@@ -27,7 +24,7 @@ export default function post({ title, content, author, post_id, likes, comments 
 
 
     const handleSubmit = async (e) => {
-        const url = `${process.env.BLOG_SERVICE}/post/comment`
+        const url = `${process.env.NEXT_PUBLIC_ENV_BLOG_SERVICE}/comment`
         if (isLogged) {
             const options = {
                 method: 'POST',
@@ -70,7 +67,7 @@ export default function post({ title, content, author, post_id, likes, comments 
     }, [])
 
     const handleLikeFetch = async () => {
-        const url = `http://localhost:5001/api/v1/post/${post_id}/like`
+        const url = `${process.env.NEXT_PUBLIC_ENV_BLOG_SERVICE}/post/${post_id}/like`
         if (isLogged) {
             const options = {
                 method: 'PATCH',
@@ -97,7 +94,7 @@ export default function post({ title, content, author, post_id, likes, comments 
                         <a href={`/${author}`} className="block w-max mb-1 text-blue-500 text-xs bg-blue-950 rounded-md py-0.5 px-1.5">{author}</a>
                         <div className="flex items-center gap-2">
                             <span className="text-xs text-zinc-500/80">{reading_time} min de leitura</span>
-                            <span className="text-xs text-zinc-500/80">1 day ago</span>
+                            <span className="text-xs text-zinc-500/80">{timeDifference(createdAt)}</span>
                         </div>
                         
                     </div>
@@ -108,11 +105,11 @@ export default function post({ title, content, author, post_id, likes, comments 
                             <button disabled={disabled ? true : false} onClick={handleLikeFetch}>
                                 <Heart width={20}  strokeWidth={1}/>
                             </button>
-                            <span className="text-xs text-zinc-500/80">{countLikes || 0}</span>
+                            <span className="text-xs text-zinc-500/80">{countLikes}</span>
                         </div>
                         <div className="flex items-center gap-1">
                             <MessagesSquare width={20} strokeWidth={1}/>
-                            <span className="text-xs text-zinc-500/80">9</span>
+                            <span className="text-xs text-zinc-500/80">{commentsCount}</span>
                         </div>
                     </div>
                     
