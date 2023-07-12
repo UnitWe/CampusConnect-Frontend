@@ -36,7 +36,7 @@ export default function perfil({user, token}) {
     return (
         <main className="max-w-5xl  m-auto flex">
             <div className="mb-12 mt-24 flex-1 mr-10">
-                <h1 className=" text-4xl font-semibold mb-8">Marcelo Henrique</h1>
+                <h1 className=" text-4xl font-semibold mb-8">{user && user.username}</h1>
                 <div className="mb-8 pb-4 border-b border-zinc-800/50 flex gap-6">
                 {
                     permissions ? (
