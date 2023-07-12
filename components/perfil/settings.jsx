@@ -37,7 +37,7 @@ export default function Settings() {
 
         
         const verifyToken = async() => {
-            const EncodedSecretKey = new TextEncoder().encode('asdsddasybudsa');
+            const EncodedSecretKey = new TextEncoder().encode('ASOKJFGALSKHGLKJSAHBGKLJSHLGKJA');
             const decoded = await jose.jwtVerify(token_value, EncodedSecretKey, { algorithms: ['HS256'] });
             setUserId(decoded.payload.id)
         }

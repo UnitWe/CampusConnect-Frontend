@@ -4,7 +4,7 @@ import * as jose from 'jose'
 import React, { useEffect } from 'react';
 import Image from "next/image"
 import Logo from "../public/images/logo.png"
-import Avatar from "../public/images/avatar.webp"
+import NullAvatar from "../public/images/avatarNull.png"
 
 
 export default function header() {
@@ -12,12 +12,13 @@ export default function header() {
     const [logged, setLogged] = React.useState(false)
     const [menu, setMenu] = React.useState(false)
     const [user, setUser] = React.useState('')
+    const [profilePicUrl, setProfilePic] = React.useState(null)
 
 
     useEffect(() => {
         const verifyToken = async (token) => {
             try {
-                const EncodedSecretKey = new TextEncoder().encode('asdsddasybudsa');
+                const EncodedSecretKey = new TextEncoder().encode('ASOKJFGALSKHGLKJSAHBGKLJSHLGKJA');
                 const decoded = await jose.jwtVerify(token, EncodedSecretKey, { algorithms: ['HS256'] });
                 setUser(decoded.payload.username)
                 setLogged(true);
@@ -29,10 +30,16 @@ export default function header() {
         };
         
         const token = localStorage.getItem('token');
+        const profile_pic_url = localStorage.getItem('profile_pic_url')
+
+
+        if(profile_pic_url){
+            setProfilePic(profile_pic_url)
+        }
+
         if (token) {
             verifyToken(token)
         }
-
     }, []);
 
 
@@ -77,7 +84,7 @@ export default function header() {
                             logged ?
                                 <div className='relative'>
                                     <button className="p-1" onClick={() => setMenu(!menu)}>
-                                        <Image className="rounded-full" src={Avatar} width={32} height={32} />
+                                        <Image className="rounded-full" src={profilePicUrl? profilePicUrl : NullAvatar} width={32} height={32} />
                                     </button>
                                     {
                                         menu ?

@@ -30,7 +30,7 @@ export default function Page() {
     const fetchData = async () => {
         const url = `${process.env.NEXT_PUBLIC_ENV_USER_SERVICE}/user/${username}/show`
         const options = {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -48,6 +48,7 @@ export default function Page() {
 
     const verifyToken = async (token) => {
         const { decoded } = await verify(token)
+        console.log(decoded);
         if (decoded) {
             setToken(decoded.payload.id)
         } else {

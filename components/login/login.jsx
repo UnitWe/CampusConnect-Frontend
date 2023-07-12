@@ -30,6 +30,13 @@ export default function login() {
                 const data = await response.json();
 
                 localStorage.setItem('token', data.access_token);
+                
+                if(data.profile_pic_url){
+                    localStorage.setItem('profile_pic_url', data.profile_pic_url);
+                }else{
+                    localStorage.removeItem('profile_pic_url')
+                }
+
                 window.location.href = '/';
 
             } else {
