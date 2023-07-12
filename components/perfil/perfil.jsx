@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import Image from "next/image";
-import Avatar from "../../public/images/avatar.webp"
+import NullAvatar from "../../public/images/avatarNull.png"
 import Settings from "./settings";
 import About from "./about";
 import Posts from "./posts";
@@ -11,12 +11,22 @@ export default function perfil({ user, token }) {
     const [page, setPage] = React.useState(1)
 
     const [permissions, setPermissions] = React.useState(false)
+    const [profilePicUrl, setProfilePic] = React.useState(null)
+
 
 
     useEffect(() => {
         if (user != null) {
             verifyUserId()
         }
+        const profile_pic_url = localStorage.getItem('profile_pic_url')
+
+        console.log(token);
+        
+        if(profile_pic_url){
+            setProfilePic(profile_pic_url)
+        }
+
     }, [user])
 
     const verifyUserId = () => {
@@ -76,11 +86,13 @@ export default function perfil({ user, token }) {
                                 {
                                 permissions ? 
                                     <div className="pt-10">
+                                        <Image className="rounded-full mb-4" width={120} height={120} src={profilePicUrl? profilePicUrl: NullAvatar} />
                                         <p>Olá {user.username}</p>
                                         <button onClick={() => setPage(3)} className=" hover:underline">Customize seu perfil aqui</button>
                                     </div>
                                     :
                                     <div className="pt-10">
+                                        <Image className="rounded-full mb-4" width={120} height={120} src={profilePicUrl? profilePicUrl: NullAvatar} />
                                         <p>Esse perfil não tem uma bio</p>
                                     </div>
                                 } 
@@ -90,7 +102,7 @@ export default function perfil({ user, token }) {
                             
                         ) : (
                     <>
-                        <Image className="rounded-full mb-4" src={Avatar} />
+                        <Image className="rounded-full mb-4" width={120} height={120} src={profilePicUrl? profilePicUrl: NullAvatar} />
                         <span className="block text-lg">{user && user.name}</span>
                         <div className="mb-4">
                             <span className="block text-sm text-zinc-300">academic level: {user && user.academic_level}</span>
@@ -103,7 +115,7 @@ export default function perfil({ user, token }) {
                         </p>
                         <div className="flex items-center gap-1.5">
                             <Link width={14} color="gray" />
-                            <a className="text-zinc-300 hover:underline text-sm" target="_blank" href={user && user.link}>{user && user.link}</a>
+                            <a className="text-zinc-300 break-words hover:underline text-sm" target="_blank" href={user && user.link}>{user && user.link}</a>
                         </div>
                     </>
 

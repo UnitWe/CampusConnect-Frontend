@@ -30,7 +30,6 @@ export default function timeDifference(previous) {
     }
     
     else {
-    			console.log('oi')
          return + Math.round(elapsed/msPerYear ) + ' years ago';   
     }
 

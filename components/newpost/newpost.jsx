@@ -82,7 +82,7 @@ export default function newpost() {
 
         const verifyToken = async (token) => {
             try {
-                const EncodedSecretKey = new TextEncoder().encode('asdsddasybudsa');
+                const EncodedSecretKey = new TextEncoder().encode('ASOKJFGALSKHGLKJSAHBGKLJSHLGKJA');
                 const decoded = await jose.jwtVerify(token, EncodedSecretKey, { algorithms: ['HS256'] });
             } catch (e) {
                 window.location.href = '/login';
