@@ -1,14 +1,14 @@
 'use client'
 import React from 'react';
-import * as dotenv from 'dotenv';
+
 import { usePathname } from 'next/navigation'
 import useFetch from '../../../components/hooks/useFetch'
 import Post from '@/components/post/post';
 import Header from '@/components/header';
 
-dotenv.config()
 
-export default function Page({ params }) {
+
+export default function Page() {
     const [post, setPost] = React.useState(null);
     const { error, loading, request } = useFetch();
 
@@ -20,11 +20,12 @@ export default function Page({ params }) {
 
     React.useEffect(() => {
         const fetchData = async () => {
-            const url = `${process.env.BLOG_SERVICE}/post/${username}/${id}`
+            const url = `${process.env.NEXT_PUBLIC_ENV_BLOG_SERVICE}/post/${username}/${id}`
             const options = {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
+
                 },
                 
             };
@@ -48,7 +49,7 @@ export default function Page({ params }) {
                 post ?
                     <>
                         <Header/>
-                        <Post reading_time={post.reading_time} title={post.title} content={post.content} author={post.author} post_id={post._id} likes={post.likes} comments={post.comments ? post.comments : []}/>
+                        <Post commentsCount={post.commentsCount} createdAt={post.createdAt} reading_time={post.reading_time} title={post.title} content={post.content} author={post.author} post_id={post._id} likes={post.likes} comments={post.comments ? post.comments : []}/>
                     </>
                     
                     : ""
