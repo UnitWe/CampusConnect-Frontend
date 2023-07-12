@@ -1,21 +1,20 @@
 'use client'
 import React, { useState } from "react"
-import * as dotenv from 'dotenv';
+
 import useFetch from "../hooks/useFetch"
-<<<<<<< Updated upstream
 
-dotenv.config()
-
-=======
 import timeDifference from "@/functions/timeDifference";
->>>>>>> Stashed changes
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
 export default function main() {
 
+
     const [posts, setPosts] = React.useState([]);
+    const [data, setData] = React.useState(null);
     const { error, loading, request } = useFetch();
-    const url = `${process.env.BLOG_SERVICE}/post`
+    const url = `${process.env.NEXT_PUBLIC_ENV_BLOG_SERVICE}/post`
     const [currentPage, setCurrentpage] = useState(1)
-    const [limit, setLimit] = useState(3)
+    const [limit, setLimit] = useState(5)
 
 
     React.useEffect(() => {
@@ -25,34 +24,21 @@ export default function main() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ currentPage, limit }),
+                body: JSON.stringify({ current_page: currentPage, limit }),
             };
 
             const { response, json } = await request(url, options);
-
             if (response.ok) {
                 setPosts(json.data)
-                console.log(json.data)
-            } 
+                setData(json)
+                console.log(json)
+            }
         };
 
         fetchData();
     }, [request, currentPage]);
 
-    
 
-    const createSlug =(text) => {
-        const slug = text
-          .toLowerCase()
-          .replace(/[^\w\s-]/g, '') // Remove caracteres especiais
-          .replace(/\s+/g, '-') // Substitui espaços por hífens
-          .replace(/--+/g, '-') // Remove hífens duplicados
-          .trim(); // Remove espaços em branco no início e no fim
-      
-        return slug;
-    }
-
-    
 
     return (
         <main className="mt-20 px-4">
@@ -60,13 +46,12 @@ export default function main() {
 
                 {loading && <p>Carregando...</p>}
 
-                {Array.isArray(posts) ? (
-                    posts.map((post, index) => {
-                        //const slug = createSlug(post.title);
-                        const postUrl = `${post.author}/${post._id}`;
+                {Array.isArray(posts) && posts.length > 0 ? (
 
+                    posts.map((post, index) => {
+                        const postUrl = `${post.author}/${post._id}`;
                         return (
-                            <div key={post._id} className="mb-3">
+                            <div key={post._id} className="mb-5">
                                 <a href={postUrl} className="hover:underline">
                                     {index + 1}. {post.title}
                                 </a>
@@ -78,20 +63,35 @@ export default function main() {
                                     </a>
                                     <span className="text-xs text-zinc-400">{timeDifference(post.createdAt)}</span>
                                 </div>
+                                <div className="ml-4">
+                                    {post.tags.map((tag, index) => (
+                                        <span key={index} className="w-max mr-2 inline-block text-blue-500 text-xs bg-blue-950 rounded-md py-0.5 px-1.5">{tag} </span>
+                                    ))}
+                                </div>
                             </div>
                         );
                     })
 
-                    
+
                 ) : (
                     <p>Nenhum post encontrado.</p>
                 )}
-                    <div className="flex gap-4">
-                        <button onClick={()=> setCurrentpage(currentPage - 1)}>prev</button>
-                        <button onClick={()=> setCurrentpage(currentPage + 1)}>next</button> 
-                    </div>
-                    
-                    
+
+                <div className="flex gap-6 mx-auto justify-center">
+                    <button
+                        className={currentPage != 1 ? "text-blue-400 flex items-center" : "text-zinc-500 flex items-center"}
+                        disabled={currentPage === 1 ? true : false} onClick={() => setCurrentpage(currentPage - 1)}>
+                        <ChevronLeft width={14} />
+                        Anterior
+                    </button>
+
+                    <button
+                        className={data && currentPage != data.totalPages ? "text-blue-400 flex items-center" : "text-zinc-500 flex items-center"}
+                        disabled={data && currentPage === data.totalPages ? true : false} onClick={() => setCurrentpage(currentPage + 1)}>
+                        Próximo
+                        <ChevronRight width={14} />
+                    </button>
+                </div>
             </div>
         </main>
     )
