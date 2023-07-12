@@ -31,7 +31,6 @@ export default function main() {
             if (response.ok) {
                 setPosts(json.data)
                 setData(json)
-                console.log(json)
             }
         };
 
