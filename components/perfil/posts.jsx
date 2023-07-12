@@ -12,7 +12,7 @@ export default function posts() {
     const { loading, error, request } = useFetch()
 
     
-    const url = `http://localhost:5001/api/v1/post/${user}`
+    const url = `${process.env.NEXT_PUBLIC_ENV_BLOG_SERVICE}/post/${user}`
 
     React.useEffect(() => {
         const fetchData = async () => {
