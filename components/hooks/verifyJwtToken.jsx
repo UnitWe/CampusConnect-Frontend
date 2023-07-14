@@ -9,7 +9,7 @@ export default function verifyJwtToken() {
     const verify = React.useCallback(async (token) => {
         let decoded = null;
         try {
-            const EncodedSecretKey = new TextEncoder().encode('ASOKJFGALSKHGLKJSAHBGKLJSHLGKJA');
+            const EncodedSecretKey = new TextEncoder().encode('asdsddasybudsa');
             decoded = await jose.jwtVerify(token, EncodedSecretKey, { algorithms: ['HS256'] });
         } catch (e) {
             setError(e);

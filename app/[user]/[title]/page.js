@@ -12,6 +12,7 @@ export default function Page() {
     const [post, setPost] = React.useState(null);
     const { error, loading, request } = useFetch();
 
+
     const pathname = usePathname()
     const parts = pathname.split('/');
     const username = parts[parts.length - 2]

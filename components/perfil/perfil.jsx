@@ -19,13 +19,6 @@ export default function perfil({ user, token }) {
         if (user != null) {
             verifyUserId()
         }
-        const profile_pic_url = localStorage.getItem('profile_pic_url')
-
-        console.log(token);
-        
-        if(profile_pic_url){
-            setProfilePic(profile_pic_url)
-        }
 
     }, [user])
 
@@ -86,13 +79,13 @@ export default function perfil({ user, token }) {
                                 {
                                 permissions ? 
                                     <div className="pt-10">
-                                        <Image className="rounded-full mb-4" width={120} height={120} src={profilePicUrl? profilePicUrl: NullAvatar} />
+                                        <Image className="rounded-full mb-4" width={120} height={120} src={user.pic_url? user.pic_url: NullAvatar} />
                                         <p>Olá {user.username}</p>
                                         <button onClick={() => setPage(3)} className=" hover:underline">Customize seu perfil aqui</button>
                                     </div>
                                     :
                                     <div className="pt-10">
-                                        <Image className="rounded-full mb-4" width={120} height={120} src={profilePicUrl? profilePicUrl: NullAvatar} />
+                                        <Image className="rounded-full mb-4" width={120} height={120} src={user.pic_url? user.pic_url: NullAvatar} />
                                         <p>Esse perfil não tem uma bio</p>
                                     </div>
                                 } 
@@ -102,7 +95,7 @@ export default function perfil({ user, token }) {
                             
                         ) : (
                     <>
-                        <Image className="rounded-full mb-4" width={120} height={120} src={profilePicUrl? profilePicUrl: NullAvatar} />
+                        <Image className="rounded-full mb-4" width={120} height={120} src={user.pic_url? user.pic_url: NullAvatar} />
                         <span className="block text-lg">{user && user.name}</span>
                         <div className="mb-4">
                             <span className="block text-sm text-zinc-300">academic level: {user && user.academic_level}</span>

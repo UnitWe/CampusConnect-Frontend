@@ -48,7 +48,6 @@ export default function Page() {
 
     const verifyToken = async (token) => {
         const { decoded } = await verify(token)
-        console.log(decoded);
         if (decoded) {
             setToken(decoded.payload.id)
         } else {

@@ -7,7 +7,7 @@ import { Bookmark, Heart, MessagesSquare, Share } from "lucide-react";
 import verifyJwtToken from "../hooks/verifyJwtToken";
 import renderCommentContent from "../../functions/renderCommentContent";
 import timeDifference from "@/functions/timeDifference";
-
+import NullAvatar from '../../public/images/avatarNull.png'
 
 
 export default function post({ commentsCount, createdAt, title, content, author, post_id, likes, comments = [], reading_time }) {
@@ -18,6 +18,8 @@ export default function post({ commentsCount, createdAt, title, content, author,
     const [isLogged, setIsLogged] = React.useState(false)
     const [countLikes, setCountLikes] = React.useState(likes || 0)
     const [disabled, setDisabled] = React.useState(false)
+    const [user, setUser] = React.useState(null)
+
 
 
     const { error, loading, request } = useFetch()
@@ -36,6 +38,7 @@ export default function post({ commentsCount, createdAt, title, content, author,
             const { response, json } = await request(url, options);
             if (response.ok) {
                 console.log("commented")
+                
             }
 
         }
@@ -59,11 +62,12 @@ export default function post({ commentsCount, createdAt, title, content, author,
     React.useEffect(() => {
         const token = localStorage.getItem('token')
 
+
         if (token) {
             verifyToken(token)
         }
 
-
+        fetchData()
     }, [])
 
     const handleLikeFetch = async () => {
@@ -83,13 +87,32 @@ export default function post({ commentsCount, createdAt, title, content, author,
         
     }
 
+    const fetchData = async () => {
+        const url = `${process.env.NEXT_PUBLIC_ENV_USER_SERVICE}/user/${author}/show`
+        const options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        };
+
+        const { response, json } = await request(url, options);
+
+        if (response.ok && json !== null) {
+            setUser(json)
+            console.log(json)
+        } else {
+            console.log('usuario não existe')
+        }
+    }
+
 
     return (
         <main className="mt-20 px-4">
             <div className="max-w-3xl m-auto mb-12">
                 <h1 className='text-5xl font-semibold break-words mb-6'>{title}</h1>
                 <div className="flex items-start gap-2 mb-6">
-                    <Image className="rounded-full" width={44} height={44} src={Avatar}/>
+                    <Image className="rounded-full" width={44} height={44} src={user && user.pic_url? user.pic_url: NullAvatar}/>
                     <div>
                         <a href={`/${author}`} className="block w-max mb-1 text-blue-500 text-xs bg-blue-950 rounded-md py-0.5 px-1.5">{author}</a>
                         <div className="flex items-center gap-2">
