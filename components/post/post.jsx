@@ -108,7 +108,7 @@ export default function post({ commentsCount, createdAt, title, content, author,
 
 
     return (
-        <main className="mt-20 px-4">
+        <main className="mt-20 px-4 text-zinc-200">
             <div className="max-w-3xl m-auto mb-12">
                 <h1 className='text-5xl font-semibold break-words mb-6'>{title}</h1>
                 <div className="flex items-start gap-2 mb-6">

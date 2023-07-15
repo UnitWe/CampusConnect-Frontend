@@ -52,7 +52,7 @@ export default function login() {
     const inputStyles = "px-2 h-11 rounded bg-black border border-zinc-700 focus:outline-none focus:border-purple focus:border-2"
     const buttonStyles = "text-sm h-11 rounded bg-bg-button-color"
     return (
-        <div className="flex items-center justify-center h-screen px-4">
+        <div className="flex items-center justify-center h-screen px-4 text-zinc-200">
             <div className=" max-w-xl mt-14">
                 <form action="" onSubmit={registerUser} className="flex flex-col gap-4 w-full">
                     <h1 className="font-semibold text-3xl">Login</h1>

@@ -42,7 +42,7 @@ export default function Register() {
     
 
     return (
-        <div className="flex items-center justify-center h-screen px-4">
+        <div className="flex items-center justify-center h-screen px-4 text-zinc-200">
             <div className="max-w-xl mt-14">
                 <form onSubmit={registerUser} className="flex flex-col gap-4 w-full">
                     <h1 className="font-semibold text-3xl">Register</h1>

@@ -40,7 +40,7 @@ export default function main() {
 
 
     return (
-        <main className="mt-20 px-4">
+        <main className="mt-20 px-4 text-zinc-200">
             <div className="max-w-4xl m-auto mb-12">
 
                 {loading && <p>Carregando...</p>}
