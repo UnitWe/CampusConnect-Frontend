@@ -66,26 +66,26 @@ export default function header() {
 
     const components = [
         {
-            title: "Alert Dialog",
+            title: "Pibic",
             href: "/docs/primitives/alert-dialog",
             description:
                 "A modal dialog that interrupts the user with important content and expects a response.",
         },
         {
-            title: "Hover Card",
+            title: "Desafios",
             href: "/docs/primitives/hover-card",
             description:
                 "For sighted users to preview content available behind a link.",
         },
         {
-            title: "Progress",
+            title: "Trilhas",
             href: "/docs/primitives/progress",
             description:
                 "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
         },
         {
-            title: "Scroll-area",
-            href: "/docs/primitives/scroll-area",
+            title: "Salas de aula",
+            href: "/rooms",
             description: "Visually or semantically separates content.",
         },
         {
@@ -95,7 +95,7 @@ export default function header() {
                 "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
         },
         {
-            title: "Tooltip",
+            title: "Eventos",
             href: "/docs/primitives/tooltip",
             description:
                 "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
@@ -104,7 +104,7 @@ export default function header() {
 
 
     return (
-        <header className=" bg-gray-dark fixed right-0 top-0 left-0 w-full border-b border-zinc-800  px-2 max-md:px-0">
+        <header className=" bg-gray-dark fixed right-0 top-0 left-0 w-full border-b border-zinc-800 z-50  px-2 max-md:px-0">
             <div className="flex items-center px-2 max-w-7xl mx-auto h-14">
                 <Link href="/">
                     <Image src={Logo} width={70} height={70} />
@@ -147,7 +147,7 @@ export default function header() {
                                 </NavigationMenuContent>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
-                                <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+                                <NavigationMenuTrigger>Atividades</NavigationMenuTrigger>
                                 <NavigationMenuContent>
                                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                                         {components.map((component) => (
