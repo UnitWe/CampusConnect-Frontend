@@ -10,6 +10,12 @@ import timeDifference from "@/functions/timeDifference";
 import NullAvatar from '../../public/images/avatarNull.png'
 
 
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import remarkBreaks from 'remark-breaks'
+import remarkHtml from 'remark-html'
+
+
 export default function post({ commentsCount, createdAt, title, content, author, post_id, likes, comments = [], reading_time }) {
     const {verify} = verifyJwtToken()
     const [response, setResponse] = React.useState(false)
@@ -147,7 +153,11 @@ export default function post({ commentsCount, createdAt, title, content, author,
                     </div>
                     
                 </div>
-                <p style={{ whiteSpace: 'pre-wrap' }} className='mb-4'>{renderCommentContent(content)}</p>
+    
+                <ReactMarkdown linkTarget="_blank" className="prose prose-invert mb-10 max-w-full" remarkPlugins={[remarkGfm, remarkBreaks, remarkHtml]}>
+                    {content ? content : ''}    
+                </ReactMarkdown>
+    
                 {
                     response ?
                         <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-2">
