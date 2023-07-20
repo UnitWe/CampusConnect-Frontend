@@ -17,7 +17,7 @@ export default function Register() {
         
         
         try {
-            const response = await fetch(`${process.env.USER_SERVICE}/user`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_ENV_USER_SERVICE}/user`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
