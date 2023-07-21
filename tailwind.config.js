@@ -31,7 +31,9 @@ module.exports = {
       green: colors.green,
       'purple': '#818CF8',
       'gray-dark': '#161B22',
-      'bg-button-color': '#238636'
+      'bg-button-color': '#238636',
+      'tags-color-text': '#2F81F7',
+      'tags-bg-color': 'rgba(56, 139, 253, 0.1)'
 
     },
     
