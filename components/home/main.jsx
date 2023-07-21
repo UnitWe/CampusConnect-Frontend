@@ -4,7 +4,7 @@ import React, { useState } from "react"
 import useFetch from "../hooks/useFetch"
 
 import timeDifference from "@/functions/timeDifference";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, MessageCircle, Heart } from "lucide-react";
 
 export default function main() {
 
@@ -31,6 +31,7 @@ export default function main() {
             if (response.ok) {
                 setPosts(json.data)
                 setData(json)
+                console.log(json.data)
             }
         };
 
@@ -49,24 +50,47 @@ export default function main() {
 
                     posts.map((post, index) => {
                         const postUrl = `${post.author}/${post._id}`;
+                        const authorProfile = `/${post.author}`
                         return (
-                            <div key={post._id} className="mb-5">
-                                <a href={postUrl} className="hover:underline">
-                                    {index + 1}. {post.title}
-                                </a>
-                                <div className="flex items-center gap-2 ml-4 mt-0.5">
-                                    <span className="text-xs text-zinc-400">{post.likes} likes</span>
-                                    <span className="text-xs text-zinc-400">{post.commentsCount} comentários</span>
-                                    <a href={`/${post.author}`} className="text-xs text-zinc-400 hover:underline">
-                                        {post.author}
+                            <div key={post._id} className="mb-5 mx-auto p-5 bg-gray-dark w-[600px] rounded-lg">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <div className="rounded-full bg-white w-8 h-8"></div>
+                                    <div className="flex flex-col">
+                                        <a href={authorProfile} className="text-xs text-zinc-300 capitalize">{post.author}</a>
+                                        <span className="text-xs text-zinc-300">{timeDifference(post.createdAt)}</span>
+                                    </div>
+                                </div>
+                                <div className="ml-7 mr-7">
+                                    <a href={postUrl} className=" duration-100 hover:text-purple text-white text-2xl font-semibold">
+                                        {post.title}
                                     </a>
-                                    <span className="text-xs text-zinc-400">{timeDifference(post.createdAt)}</span>
+                                    
+                                    <div className="space-x-4 mb-6 mt-1">
+                                        {post.tags.map((tag, index) => (
+                                            <span key={index} className="w-max inline-block text-tags-color-text text-xs bg-tags-bg-color rounded py-0.5 px-1.5">{tag} </span>
+                                        ))}
+                                    </div>
+                                    <div className="flex items-center justify-between gap-6 mt-0.5">
+                                        <div className="flex items-center gap-6">
+                                            <span className="text-xs text-zinc-400 flex items-center gap-2">
+                                                <Heart width={16} height={16}/>
+                                                <p>{post.likes} likes</p>
+                                            </span>
+                                            <span className="text-xs text-zinc-400 flex items-center gap-2">
+                                                <MessageCircle width={16} height={16}/> 
+                                                <p>{post.commentsCount} comentários</p>
+                                            </span>
+                                        </div>
+                                        <span className="text-xs text-zinc-400">
+                                        {post.reading_time} min leitura
+                                        </span>
+                                        
+                                      
+                                        
+                                    </div>
                                 </div>
-                                <div className="ml-4">
-                                    {post.tags.map((tag, index) => (
-                                        <span key={index} className="w-max mr-2 inline-block text-blue-500 text-xs bg-blue-950 rounded-md py-0.5 px-1.5">{tag} </span>
-                                    ))}
-                                </div>
+
+
                             </div>
                         );
                     })
