@@ -9,18 +9,18 @@ import remarkHtml from 'remark-html'
 
 export default function Markdown() {
 
-  
 
 
-    return (
 
-      
-        
-        <ReactMarkdown linkTarget="_blank" className="prose prose-invert" remarkPlugins={[remarkGfm, remarkBreaks, remarkHtml]}>
-          {content ? content : ''}    
-        </ReactMarkdown>
-      
-        
+  return (
 
-    )
+
+
+    <ReactMarkdown linkTarget="_blank" className="prose prose-invert" remarkPlugins={[remarkGfm, remarkBreaks, remarkHtml]}>
+      {content ? content : ''}
+    </ReactMarkdown>
+
+
+
+  )
 }

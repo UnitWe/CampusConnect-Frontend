@@ -14,6 +14,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from 'remark-breaks'
 import remarkHtml from 'remark-html'
+import rehypeRaw from 'rehype-raw';
 
 
 export default function post({ commentsCount, createdAt, title, content, author, post_id, likes, comments = [], reading_time }) {
@@ -154,7 +155,7 @@ export default function post({ commentsCount, createdAt, title, content, author,
                     
                 </div>
     
-                <ReactMarkdown linkTarget="_blank" className="prose prose-invert mb-10 max-w-full" remarkPlugins={[remarkGfm, remarkBreaks, remarkHtml]}>
+                <ReactMarkdown linkTarget="_blank" className="prose prose-invert mb-10 max-w-full" remarkPlugins={[remarkGfm, remarkBreaks, remarkHtml]} rehypePlugins={[rehypeRaw]}>
                     {content ? content : ''}    
                 </ReactMarkdown>
     

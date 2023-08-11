@@ -11,7 +11,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from 'remark-breaks'
 import remarkHtml from 'remark-html'
-
+import rehypeRaw from 'rehype-raw';
 
 
 
@@ -217,7 +217,7 @@ export default function newpost() {
             pre: ({ children }) => <div className=" bg-gray-dark p-4 rounded">{children}</div>,
             code: ({ children }) => <div className=" bg-transparent rounded">{children}</div>,
           }}
-          linkTarget="_blank" className="p-4 border-zinc-700 border bg-black rounded prose prose-invert w-full" remarkPlugins={[remarkGfm, remarkBreaks, remarkHtml]}>
+          linkTarget="_blank" className="p-4 border-zinc-700 border bg-black rounded prose prose-invert w-full" remarkPlugins={[remarkGfm, remarkBreaks, remarkHtml]} rehypePlugins={[rehypeRaw]}>
             {content ? content : ''}    
           </ReactMarkdown>
         </div>
