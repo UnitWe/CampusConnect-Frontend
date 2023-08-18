@@ -27,8 +27,9 @@ export default function login() {
             });
 
             if (response.ok) {
+                
                 const data = await response.json();
-                localStorage.setItem('token', data.access_token);
+                localStorage.setItem('token', data.token);
                 
                 if(data.profile_pic_url){
                     localStorage.setItem('profile_pic_url', data.profile_pic_url);
@@ -36,7 +37,9 @@ export default function login() {
                     localStorage.removeItem('profile_pic_url')
                 }
 
-                 window.location.href = '/';
+                window.location.href = '/';
+                
+                
 
             } else {
                 const errorData = await response.json();

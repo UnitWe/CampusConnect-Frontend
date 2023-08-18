@@ -21,7 +21,7 @@ export default function Page() {
 
     React.useEffect(() => {
         const fetchData = async () => {
-            const url = `${process.env.NEXT_PUBLIC_ENV_BLOG_SERVICE}/post/${username}/${id}`
+            const url = `${process.env.NEXT_PUBLIC_ENV_BLOG_SERVICE}/post/${id}`
             const options = {
                 method: 'GET',
                 headers: {

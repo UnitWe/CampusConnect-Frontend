@@ -33,8 +33,8 @@ export default function header() {
     useEffect(() => {
         const verifyToken = async (token) => {
             try {
-                const EncodedSecretKey = new TextEncoder().encode('asdsddasybudsa');
-                const decoded = await jose.jwtVerify(token, EncodedSecretKey, { algorithms: ['HS256'] });
+                const EncodedSecretKey = new TextEncoder().encode('AJKLSFHLKAJSHGLSJKKJGJHAKLASKJFG');
+                const decoded = await jose.jwtVerify(token, EncodedSecretKey, {algorithms: ['HS256']})
                 setUser(decoded.payload.username)
                 setLogged(true);
             } catch (e) {
@@ -222,7 +222,7 @@ export default function header() {
                                                         </a>
                                                     </li>
                                                     <li className='px-2 text-sm rounded-lg duration-100 hover:bg-zinc-600/50'>
-                                                        <Link href="#" className='flex items-center gap-2 text-zinc-200 w-full py-2 '>
+                                                        <Link href={`/${user}`} className='flex items-center gap-2 text-zinc-200 w-full py-2 '>
                                                             Editar perfil
                                                         </Link>
                                                     </li>

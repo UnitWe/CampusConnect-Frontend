@@ -12,7 +12,7 @@ export default function main() {
     const [posts, setPosts] = React.useState([]);
     const [data, setData] = React.useState(null);
     const { error, loading, request } = useFetch();
-    const url = `${process.env.NEXT_PUBLIC_ENV_BLOG_SERVICE}/post`
+   
     const [currentPage, setCurrentpage] = useState(1)
     const [limit, setLimit] = useState(5)
 
@@ -20,18 +20,19 @@ export default function main() {
     React.useEffect(() => {
         const fetchData = async () => {
             const options = {
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ current_page: currentPage, limit }),
+                    
             };
-
+            const url = `${process.env.NEXT_PUBLIC_ENV_BLOG_SERVICE}/post?limit=${limit}&current=${currentPage}`
             const { response, json } = await request(url, options);
+            
             if (response.ok) {
                 setPosts(json.data)
                 setData(json)
-                console.log(json.data)
+                console.log(json)
             }
         };
 
@@ -49,14 +50,14 @@ export default function main() {
                 {Array.isArray(posts) && posts.length > 0 ? (
 
                     posts.map((post, index) => {
-                        const postUrl = `${post.author}/${post._id}`;
-                        const authorProfile = `/${post.author}`
+                        const postUrl = `${post.author.username}/${post.id}`;
+                        const authorProfile = `/${post.author.username}`
                         return (
-                            <div key={post._id} className="mb-5 mx-auto p-5 bg-gray-dark w-[600px] rounded-lg">
+                            <div key={post.id} className="mb-5 mx-auto p-5 bg-gray-dark w-[600px] rounded-lg">
                                 <div className="flex items-center gap-2 mb-2">
                                     <div className="rounded-full bg-white w-8 h-8"></div>
                                     <div className="flex flex-col">
-                                        <a href={authorProfile} className="text-xs text-zinc-300 capitalize">{post.author}</a>
+                                        <a href={authorProfile} className="text-xs text-zinc-300 capitalize">{post.author.username}</a>
                                         <span className="text-xs text-zinc-300">{timeDifference(post.createdAt)}</span>
                                     </div>
                                 </div>
@@ -78,7 +79,7 @@ export default function main() {
                                             </span>
                                             <span className="text-xs text-zinc-400 flex items-center gap-2">
                                                 <MessageCircle width={16} height={16}/> 
-                                                <p>{post.commentsCount} comentários</p>
+                                                <p>{post._count.comments} comentários</p>
                                             </span>
                                         </div>
                                         <span className="text-xs text-zinc-400">

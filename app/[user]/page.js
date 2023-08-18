@@ -28,7 +28,7 @@ export default function Page() {
     }, [])
 
     const fetchData = async () => {
-        const url = `${process.env.NEXT_PUBLIC_ENV_USER_SERVICE}/user/${username}/show`
+        const url = `${process.env.NEXT_PUBLIC_ENV_USER_SERVICE}/users/${username}`
         const options = {
             method: 'GET',
             headers: {
@@ -48,8 +48,10 @@ export default function Page() {
 
     const verifyToken = async (token) => {
         const { decoded } = await verify(token)
+    
         if (decoded) {
             setToken(decoded.payload.id)
+            console.log('o as')
         } else {
             console.log('token invalido')
         }

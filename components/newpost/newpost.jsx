@@ -89,24 +89,24 @@ export default function newpost() {
   const router = useRouter()
 
 
-  // React.useEffect(() => {
+  React.useEffect(() => {
 
-  //   const verifyToken = async (token) => {
-  //     try {
-  //       const EncodedSecretKey = new TextEncoder().encode('asdsddasybudsa');
-  //       const decoded = await jose.jwtVerify(token, EncodedSecretKey, { algorithms: ['HS256'] });
-  //     } catch (e) {
-  //       window.location.href = '/login';
+    const verifyToken = async (token) => {
+      try {
+        const EncodedSecretKey = new TextEncoder().encode('AJKLSFHLKAJSHGLSJKKJGJHAKLASKJFG');
+        const decoded = await jose.jwtVerify(token, EncodedSecretKey, { algorithms: ['HS256'] });
+      } catch (e) {
+        window.location.href = '/login';
 
-  //     }
+      }
 
-  //   };
-  //   const token = localStorage.getItem('token');
-  //   if (token) {
-  //     verifyToken(token)
-  //   }
+    };
+    const token = localStorage.getItem('token');
+    if (token) {
+      verifyToken(token)
+    }
 
-  // }, []);
+  }, []);
 
   const handleTagChange = (selectedOptions) => {
     if (selectedOptions.length <= MAX_TAGS) {
@@ -123,12 +123,12 @@ export default function newpost() {
       let tags;
       if (selectedTags) {
         tags = selectedTags.map((tag) => tag.value)
-        console.log(tags)
+       
       }
 
       const token = localStorage.getItem('token')
       const decoded = jose.decodeJwt(token)
-      const author = decoded.username
+      const author_id = "64d93b02e42c2b1327788c60"
       const reading_time = estimateReadingTime(content)
 
       try {
@@ -137,7 +137,7 @@ export default function newpost() {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ title, content, author, reading_time: 2, tags }),
+          body: JSON.stringify({ title, content, author_id, reading_time: reading_time, tags }),
         });
 
         if (response.ok) {
